@@ -310,7 +310,7 @@ class Stage1 extends Phaser.Scene {
       this.player.setVelocityY(-800);
       this.player.setVelocityX(-80);
       this.player.anims.play('jumpleft',true);
-
+//here just because 
 
     }
     else if (this.cursors.up.isDown && this.cursors.right.isDown && this.player.body.onFloor())
