@@ -136,27 +136,42 @@ class Stage1 extends Phaser.Scene {
     });
 //CREATE BOOK
 
-    this.book4 = this.physics.add.sprite(380, 110, 'book4');
-    this.book4.setSize(19, 50)
-    this.book4.setOffset(38, 49)
-    this.book4.body.setAllowGravity(false);
-    this.book4.body.setCollideWorldBounds(true);
-    this.book4.body.moves = false;
-    this.physics.add.collider(this.book4, this.layer);
+    this.book5 = this.physics.add.sprite(420, 110, 'book5');
+    this.book5.setSize(23, 80)
+    this.book5.setOffset(38, 19)
+    this.book5.body.setAllowGravity(false);
+    this.book5.body.setCollideWorldBounds(true);
+    this.book5.body.moves = false;
+    this.physics.add.collider(this.book5, this.layer);
     this.pickedUp = 0;
 
-    this.book6 = this.physics.add.sprite(450, 110, 'book6');
-    this.book6.setSize(40, 15)
-    this.book6.setOffset(5, 35)
-    this.book6.body.setAllowGravity(false);
-    this.book6.body.setCollideWorldBounds(true);
-    this.book6.body.moves = false;
+    this.book8 = this.physics.add.sprite(350, 110, 'book8');
+    this.book8.setSize(60, 25)
+    this.book8.setOffset(30, 70)
+    this.book8.body.setAllowGravity(false);
+    this.book8.body.setCollideWorldBounds(true);
+    this.book8.body.moves = false;
+
+    this.book1 = this.physics.add.sprite(860, 110, 'book1');
+    this.book1.setSize(20, 80)
+    this.book1.setOffset(34, 20)
+    this.book1.body.setAllowGravity(false);
+    this.book1.body.setCollideWorldBounds(true);
+    this.book1.body.moves = false;
+
+    this.book7 = this.physics.add.sprite(630, 290, 'book7');
+    this.book7.setSize(50, 45)
+    this.book7.setOffset(28, 50)
+    this.book7.body.setAllowGravity(false);
+    this.book7.body.setCollideWorldBounds(true);
+    this.book7.body.moves = false;
 
     this.book3 = this.physics.add.sprite(950, 135, 'book3');
     this.book3.setSize(40, 15)
     this.book3.setOffset(5, 35)
-    this.book3.body.setAllowGravity(false);
+    this.book3.body.setAllowGravity(true);
     this.book3.body.setCollideWorldBounds(true);
+    this.physics.add.collider(this.book3, this.layer);
     this.book3.body.moves = false;
     // this.book3.setFrictionX(1);
 
@@ -167,10 +182,13 @@ class Stage1 extends Phaser.Scene {
     // // book4.setSize(100,100, true);
     // this.physics.add.collider(this.player, book4);
     // this.physics.add.overlap(this.player, this.book3, collectBook3, null, this);
-    this.physics.add.collider(this.player, this.book4, collidePlayer, null, this);
+    this.physics.add.collider(this.player, this.book5, collidePlayer, null, this);
+    this.physics.add.collider(this.player, this.book1, collidePlayer, null, this);
+    this.physics.add.collider(this.player, this.book7, collidePlayer, null, this);
+
     this.physics.add.collider(this.player, this.book3, collectBook3, null, this);
 
-    this.physics.add.collider(this.player, this.book6, collidePlayer, null, this);
+    this.physics.add.collider(this.player, this.book8, collidePlayer, null, this);
 
     this.touchingBook = 0;
     this.bookCollected = 0;
@@ -231,9 +249,28 @@ class Stage1 extends Phaser.Scene {
 
 //TURN ON THE CURSOR
     this.cursors = this.input.keyboard.createCursorKeys();
+    var rect = new Phaser.Geom.Rectangle(1380, 360, 20, 190);
+
+    var graphics = this.add.graphics({ fillStyle: { color: 0x000000 } });
+
+    graphics.fillRectShape(rect);
 
   }
   update(){
+    if (this.coverLaser1 == 1 && this.book3.y == this.player.y - 70)
+    {
+      this.laser1.play('laserOn');
+      this.laser1.setSize(15, 130);
+      this.laser1.setOffset(30,60);
+      this.coverLaser1 = 0;
+    }
+    if (this.coverLaser2 == 1 && this.book3.y == this.player.y - 70)
+    {
+      this.laser2.play('laserOn');
+      this.laser2.setSize(15, 130);
+      this.laser2.setOffset(30,60);
+      this.coverLaser2 = 0;
+    }
     if (this.touchingBook == 1 && this.cursors.up.isDown)
     {
       this.player.setVelocityY(-200);
@@ -246,7 +283,7 @@ class Stage1 extends Phaser.Scene {
     }
     if (this.pickedUp == 1)
     {
-      this.book3.setX(this.player.x);
+      this.book3.setX(this.player.x + 10);
       this.book3.setY(this.player.y - 70);
       this.bookUp = 1;
 
@@ -256,7 +293,7 @@ class Stage1 extends Phaser.Scene {
       this.book3.setX(this.player.x-50);
       this.book3.setY(this.player.y+20);
       this.pickedUp = 0;
-      console.log("picked up");
+      console.log("put down");
     }
     // if (this.cursors.space.isDown)
     // {
@@ -310,7 +347,7 @@ class Stage1 extends Phaser.Scene {
       this.player.setVelocityY(-800);
       this.player.setVelocityX(-80);
       this.player.anims.play('jumpleft',true);
-//here just because 
+//here just because
 
     }
     else if (this.cursors.up.isDown && this.cursors.right.isDown && this.player.body.onFloor())
@@ -341,7 +378,7 @@ class Stage1 extends Phaser.Scene {
 function collectBook3(player, book3)
 {
   this.player.setVelocityX(0);
-  this.touchingBook = 1
+  this.touchingBook = 1;
    if (this.cursors.space.isDown)
    {
 
@@ -352,6 +389,12 @@ function collectBook3(player, book3)
 
      this.pickedUp = 1;
 
+   }
+   if (this.touchingBook == 1 && this.cursors.right.isDown)
+   {
+     console.log ("slide");
+     this.book3.setX(this.player.x - 20);
+     // this.book3.body.moves = true;
    }
    if (this.touchingBook = 1)
    {
@@ -364,22 +407,51 @@ function collectBook3(player, book3)
 
    }
 }
+
+
 function collidePlayer()
 {
   this.player.setVelocityX(0);
   this.touchingBook = 1
 }
 
+
+// function uncoverLaser1()
+// {
+//   // this.laser1.play('laserOn');
+//
+//   this.laser1.setSize(15, 130);
+//   this.laser1.setOffset(30,60);
+// }
+//
+//
+// function uncoverLaser2()
+// {
+//   // this.laser2.play('laserOn');
+//   this.laser2.setSize(15, 130);
+//   this.laser2.setOffset(30,60);
+// }
+
 function coverLaser1()
 {
+
   this.laser1.play('laserOff');
-  this.laser1.destroy()
+  // this.laser1.destroy()
+  this.laser1.setSize(1, 1);
+  this.laser1.setOffset(300, 300)
+  this.coverLaser1 = 1
+
 
 }
 function coverLaser2()
 {
   this.laser2.play('laserOff');
-  this.laser2.destroy()
+  // this.laser2.destroy()
+  this.laser2.setSize(1, 1);
+  this.laser2.setOffset(300, 300)
+  this.coverLaser2 = 1
+
+
 
 }
 function collideLaser1()

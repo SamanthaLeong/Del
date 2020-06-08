@@ -1,6 +1,6 @@
 let config =  {
   type: Phaser.AUTO,
-  parent: 'phaser-example',
+  // parent: 'phaser-example',
   width: 1400,
   height: 540,
   physics: {
@@ -10,5 +10,5 @@ let config =  {
             gravity: {y: 300}
         }
     },
-  scene:[Stage1]
+  scene:[ Stage1]
 };
