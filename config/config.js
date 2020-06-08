@@ -10,5 +10,5 @@ let config =  {
             gravity: {y: 300}
         }
     },
-  scene:[ Stage1]
+  scene:[Story1, Stage1]
 };
